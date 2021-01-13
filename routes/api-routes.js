@@ -15,11 +15,9 @@ router.route("/api/workouts")
 
 router.route("/api/workouts/:id")
 .put(function(req, res){
-    workout.findById(req.params.id)
-    .then(workout=>{
-        workout.exercises.push(req.body)
-        return workout.save()
-    }).then(workout=>res.json(workout)).catch(err=>res.sendStatus(500))
+    workout.findByIdAndUpdate(req.params.id, 
+        {$push: {exercises: req.body}})
+    .then(workout=>res.json(workout)).catch(err=>res.sendStatus(500))
 })
 
 module.exports = router
